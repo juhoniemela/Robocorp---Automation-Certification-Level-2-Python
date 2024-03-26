@@ -23,24 +23,24 @@ def order_robots_from_RobotSpareBin():
 
 
 def open_robot_order_website():
-    """Navigates to the given URL"""
+    """Navigate to the order URL"""
     browser.goto("https://robotsparebinindustries.com/#/robot-order")
 
 
 def close_modal():
-    """Closes the modal"""
+    """Close the modal"""
     page = browser.page()
     page.click("button:text('OK')")
 
 
 def download():
-    """Downloads orders from given URL"""
+    """Download orders from URL"""
     http = HTTP()
     http.download(url="https://robotsparebinindustries.com/orders.csv", overwrite=True)
 
 
 def get_orders():
-    """CSV files into tables"""
+    """Import CSV files into tables"""
     table = Tables()
     orders = table.read_table_from_csv("orders.csv")
 
@@ -49,7 +49,7 @@ def get_orders():
 
 
 def fill_the_form(order):
-    """Fills the order form with given details"""
+    """Fill the order form"""
     page = browser.page()
     close_modal()
 
@@ -69,7 +69,7 @@ def fill_the_form(order):
 
 
 def store_receipt_as_pdf(order_number):
-    """Stores receipts to PDF and takes a screenshot of ordered robots"""
+    """Store receipts to PDF and take a screenshot of ordered robots"""
     page = browser.page()
 
     receipt_html = page.locator("#receipt").inner_html()
@@ -86,12 +86,12 @@ def store_receipt_as_pdf(order_number):
 
 
 def embed_screenshot_to_receipt(screenshot, pdf_file):
-    """Embeds the screenshot to thge receipt PDF"""
+    """Add screenshot to the receipt PDF"""
     pdf = PDF()
     pdf.add_files_to_pdf(files=[screenshot], target_document=pdf_file, append=True)
 
 
 def archive_receipts():
-    """Archives the receipts"""
+    """Archive the receipts"""
     folder = Archive()
     folder.archive_folder_with_zip("output", "output/ordes.zip", include="*.pdf")
